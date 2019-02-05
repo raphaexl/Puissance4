@@ -6,11 +6,26 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/23 17:55:25 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/01/25 00:19:51 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/02/05 19:09:12 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/connect4.h"
+
+void	ft_ai_play(t_grille *g, t_type p)
+{
+	t_point	pos;
+	int		i;
+	int		col;
+
+	pos = ft_best_move(g);
+	i = L;
+	col = pos.x;
+	while (i >= 0 && g->tab[i - 1][col] != EMPTY)
+		i--;
+	if (i >= 1)
+		g->tab[i - 1][col] = p;
+}
 
 void	ft_ask_action (t_grille *g, t_type p)
 {
@@ -60,13 +75,12 @@ bool	ft_game_end(t_grille *g)
 				p.y = i;
 				if (ft_grille_count(g, p, 1, 1) >= 4)
 					finished = true;
-				if (ft_grille_count(g, p, 1, -1) >= 4)
+				if (ft_grille_count(g, p, -1, 1) >= 4)
 					finished = true;
 				if (ft_grille_count(g, p, 1, 0) >= 4)
 					finished = true;
 				if (ft_grille_count(g, p, 0, 1) >= 4)
-					finished = true;
-			}
+					finished = true;			}
 			if (finished)
 			{
 				printf("Player : %c, Gagne", g->tab[i][j]);
@@ -82,7 +96,10 @@ bool		ft_play(t_grille *g, t_type p)
 	ft_grille_print(g);
 	while (!ft_game_end(g) && !ft_grille_full(g))
 	{
-		ft_ask_action(g, p);
+		if (p == RED)
+			ft_ask_action(g, p);
+		else
+			ft_ai_play(g, p);
 		p = p == RED ? YELLOW : RED;
 		ft_grille_print(g);
 	}
