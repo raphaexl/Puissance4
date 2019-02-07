@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 19:42:36 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/02/05 19:08:01 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/02/07 19:51:52 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,15 @@ int		ft_evaluate(t_grille *g)
 			{
 				p.x = j;
 				p.y = i;
-				if (ft_grille_count(g, p, 1, 1) >= 4)
+				if (i < 3 && j < 4 && ft_grille_count(g, p, 1, 1) >= 4)
 					finished = true;
-				if (ft_grille_count(g, p, -1, 1) >= 4)
+				if (i > 2 && j > 2 && ft_grille_count(g, p, 1, -1) >= 4)
 					finished = true;
-				if (ft_grille_count(g, p, 1, 0) >= 4)
+				if (j < 4 && ft_grille_count(g, p, 1, 0) >= 4)
 					finished = true;
-				if (ft_grille_count(g, p, 0, 1) >= 4)
-					finished = true;
-			}
+				if (i < 4 && ft_grille_count(g, p, 0, 1) >= 4)
+					finished = true;	
+							}
 			if (finished)
 				return ((g->tab[i][j] == YELLOW) ? (10) : (-10));
 		}
